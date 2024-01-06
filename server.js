@@ -20,32 +20,46 @@ mongoose.connection.once("open", () => {
 // INDUCES
 
 // INDEX
-// list all fruits
+// list all logs
 app.get("/logs", async (req, res) => {
   try {
   } catch (error) {}
 });
 
 // NEW
-// show the user a form to fill out to create a fruit
+// show the user a form to fill out to create a log
 app.get("/logs/new", (req, res) => {
-  res.render("new");
+  res.render("logs/New");
 });
 
 // DELETE
-// backend only functionality that is used to delete a fruit
+// backend only functionality that is used to delete a log
 
 // UPDATE
-// backend only functionality that is used to update a fruit
+// backend only functionality that is used to update a log
 
 // CREATE
-// backend only functionality that is used to create a fruit
+// backend only functionality that is used to create a log
+
+app.post("/logs", async (req, res) => {
+  if (req.body.shipIsBroken === "on") {
+    req.body.shipIsBroken = true;
+  } else {
+    req.body.shipIsBroken = false;
+  }
+  try {
+    const createdLog = await Log.create(req.body);
+    res.redirect(`/logs/${createdLog._id}`);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+});
 
 // EDIT
-// show you a form that lets you edit the fruit
+// show you a form that lets you edit the log
 
 // SHOW
-// Shows you 1 individual fruit
+// Shows you 1 individual log
 
 app.listen(PORT, () => {
   console.log(`Ayo the Port at ${PORT} is lit `);
